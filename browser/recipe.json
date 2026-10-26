@@ -1,0 +1,35 @@
+{
+  "name": "browser",
+  "description": "Headless Chromium as a guest service, unprivileged user, DevTools protocol on port 9222",
+  "min_shuru_version": "0.8.0",
+  "disk_size": 4096,
+  "memory": 2048,
+  "network": {
+    "allow": [
+      "deb.debian.org",
+      "security.debian.org"
+    ]
+  },
+  "services": {
+    "chromium": {
+      "exec": [
+        "runuser", "-u", "browser", "--",
+        "chromium",
+        "--headless=new",
+        "--remote-debugging-port=9222",
+        "--remote-allow-origins=*",
+        "--user-data-dir=/home/browser/profile",
+        "--no-first-run",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--log-level=3",
+        "about:blank"
+      ],
+      "ready": ["curl", "-sf", "http://127.0.0.1:9222/json/version"],
+      "ready_timeout_secs": 60,
+      "stop_timeout_secs": 15,
+      "env": {"HOME": "/home/browser"}
+    }
+  },
+  "steps": ["install.sh", "check.sh"]
+}

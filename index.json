@@ -2,5 +2,9 @@
   {
     "name": "docker",
     "description": "Docker Engine 29.9 with dockerd as a guest service and nginx-unprivileged pre-pulled"
+  },
+  {
+    "name": "browser",
+    "description": "Headless Chromium as a guest service, unprivileged user, DevTools protocol on port 9222"
   }
 ]

@@ -9,6 +9,7 @@ needs so it can run offline afterwards.
 shuru recipe list
 shuru recipe show docker
 shuru run --recipe docker -p 8080:8080 -- docker run --rm -p 8080:8080 nginxinc/nginx-unprivileged:1.31.7-alpine-slim
+shuru run --recipe browser -p 9222:9222 -- sleep infinity   # headless Chromium, CDP on the host port
 ```
 
 The first `shuru run --recipe` builds the checkpoint, later runs boot it
@@ -22,6 +23,10 @@ docker/
   recipe.json     metadata, services, step list
   install.sh      step 1
   pull.sh         step 2
+browser/
+  recipe.json
+  install.sh      Chromium from Debian, an unprivileged user
+  check.sh        proves the service answers and renders offline
 index.json        the catalog shown by `shuru recipe list`
 ```
 
@@ -46,7 +51,10 @@ installed.
 
 1. Copy an existing directory and edit it. Pin everything you install:
    package versions, signing keys, image digests. The point of a recipe is
-   that two people building it get the same checkpoint.
+   that two people building it get the same checkpoint. Packages from the
+   Debian archive itself are the exception: Debian keeps only the newest
+   build in a suite, so pin those by enabling the security archive and
+   printing the installed version, as the browser recipe does.
 2. Test it locally without pushing: `shuru run --recipe ./docker -- ...`.
 3. Add it to `index.json` and run `scripts/validate.sh`.
 4. Open a pull request.
