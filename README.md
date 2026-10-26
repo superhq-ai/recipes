@@ -1,0 +1,59 @@
+# Shuru recipes
+
+Official recipes for [Shuru](https://github.com/superhq-ai/shuru). A recipe
+turns the base image, or an existing checkpoint, into a new checkpoint:
+install things, declare services that start at boot, pull what the sandbox
+needs so it can run offline afterwards.
+
+```sh
+shuru recipe list
+shuru recipe show docker
+shuru run --recipe docker -p 8080:8080 -- docker run --rm -p 8080:8080 nginxinc/nginx-unprivileged:1.31.7-alpine-slim
+```
+
+The first `shuru run --recipe` builds the checkpoint, later runs boot it
+directly. Recipes are resolved to an exact commit and the checkpoint
+records which one it came from.
+
+## Layout
+
+```
+docker/
+  recipe.json     metadata, services, step list
+  install.sh      step 1
+  pull.sh         step 2
+index.json        the catalog shown by `shuru recipe list`
+```
+
+`recipe.json`:
+
+| field | meaning |
+|---|---|
+| `name` | checkpoint name for `shuru run --recipe`; `[a-z0-9][a-z0-9._-]*` |
+| `description` | one line for the catalog |
+| `min_shuru_version` | refuse to build on an older CLI |
+| `from` | start from this checkpoint instead of the base image |
+| `cpus`, `memory`, `disk_size` | VM size for the build |
+| `network.allow` | hosts the build may reach; absent means offline, empty list means unrestricted |
+| `services` | files written to `/etc/shuru/services/` before the first step |
+| `steps` | scripts run in order, each in a fresh boot of the previous result |
+
+Each step runs as root with `sh`. From the second step on, declared
+services are running, so a step can use the daemon the first step
+installed.
+
+## Writing a recipe
+
+1. Copy an existing directory and edit it. Pin everything you install:
+   package versions, signing keys, image digests. The point of a recipe is
+   that two people building it get the same checkpoint.
+2. Test it locally without pushing: `shuru run --recipe ./docker -- ...`.
+3. Add it to `index.json` and run `scripts/validate.sh`.
+4. Open a pull request.
+
+Recipes from other repositories work the same way:
+`shuru run --recipe owner/repo/path --yes`.
+
+## License
+
+Apache-2.0, like Shuru.

@@ -1,0 +1,26 @@
+{
+  "name": "docker",
+  "description": "Docker Engine 29.9 with dockerd as a guest service and nginx-unprivileged pre-pulled",
+  "min_shuru_version": "0.8.0",
+  "disk_size": 4096,
+  "memory": 2048,
+  "network": {
+    "allow": [
+      "deb.debian.org",
+      "security.debian.org",
+      "download.docker.com",
+      "*.docker.io",
+      "*.docker.com",
+      "*.cloudflarestorage.com"
+    ]
+  },
+  "services": {
+    "docker": {
+      "exec": ["dockerd"],
+      "ready": ["docker", "info"],
+      "ready_timeout_secs": 60,
+      "stop_timeout_secs": 30
+    }
+  },
+  "steps": ["install.sh", "pull.sh"]
+}

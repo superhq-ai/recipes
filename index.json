@@ -1,0 +1,6 @@
+[
+  {
+    "name": "docker",
+    "description": "Docker Engine 29.9 with dockerd as a guest service and nginx-unprivileged pre-pulled"
+  }
+]
