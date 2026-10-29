@@ -12,6 +12,21 @@ shuru run --recipe docker -p 8080:8080 -- docker run --rm -p 8080:8080 nginxinc/
 shuru run --recipe browser -p 9222:9222 -- sleep infinity   # headless Chromium, CDP on the host port
 ```
 
+Agent recipes are also available in the official catalog:
+
+```sh
+shuru run --recipe claude-code --memory 4096 -- claude --version
+shuru run --recipe codex --memory 4096 -- codex --version
+```
+
+See [Claude Code](claude-code/README.md) and [Codex](codex/README.md) for
+runtime API-key injection, subscription login, and persistent state. Agent
+checkpoints contain installed software, never your login credentials.
+
+Run `bash scripts/smoke-agents.sh` on a machine with Shuru to build both,
+verify fresh offline boots, and check authentication with synthetic proxy
+credentials. It does not read personal credentials or make model calls.
+
 The first `shuru run --recipe` builds the checkpoint, later runs boot it
 directly. Recipes are resolved to an exact commit and the checkpoint
 records which one it came from.

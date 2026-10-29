@@ -6,5 +6,13 @@
   {
     "name": "browser",
     "description": "Headless Chromium as a guest service, unprivileged user, DevTools protocol on port 9222"
+  },
+  {
+    "name": "claude-code",
+    "description": "Claude Code 2.1.312 with Git and ripgrep; authenticate at runtime"
+  },
+  {
+    "name": "codex",
+    "description": "Codex CLI 0.165.0 with Git and ripgrep; authenticate at runtime"
   }
 ]

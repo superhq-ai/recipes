@@ -1,0 +1,11 @@
+{
+  "name": "claude-code",
+  "description": "Claude Code 2.1.312 with Git and ripgrep; authenticate at runtime",
+  "min_shuru_version": "0.8.0",
+  "disk_size": 4096,
+  "memory": 4096,
+  "network": {
+    "allow": ["deb.debian.org", "security.debian.org", "downloads.claude.ai"]
+  },
+  "steps": ["install.sh", "check.sh"]
+}

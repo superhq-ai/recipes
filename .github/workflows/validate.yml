@@ -14,3 +14,4 @@ jobs:
       - name: Shell syntax
         run: |
           for f in */*.sh; do sh -n "$f"; done
+          bash -n scripts/smoke-agents.sh

@@ -1,0 +1,11 @@
+{
+  "name": "codex",
+  "description": "Codex CLI 0.165.0 with Git and ripgrep; authenticate at runtime",
+  "min_shuru_version": "0.8.0",
+  "disk_size": 4096,
+  "memory": 4096,
+  "network": {
+    "allow": ["deb.debian.org", "security.debian.org", "registry.npmjs.org"]
+  },
+  "steps": ["install.sh", "check.sh"]
+}
